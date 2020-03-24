@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.hcy.newsproj.mapper.INewsMapper">
+    <resultMap id="newscommentsnumber" type="News">
+        <id property="news_id" column="news_id"></id>
+        <result property="news_title" column="news_title"></result>
+        <result property="news_attribute" column="news_attribute"></result>
+        <result property="news_image" column="news_image"></result>
+        <result property="news_content" column="news_content"></result>
+        <result property="news_time" column="news_time"></result>
+        <result property="news_source" column="news_source"></result>
+
+        <association property="commentsNumber" column="news_id" javaType="Integer" select="cn.hcy.newsproj.mapper.ICommentsMapper.findCommnetsNumber">
+        </association>
+
+        <association property="praise" column="news_id" javaType="Praise" select="cn.hcy.newsproj.mapper.IPraiseMapper.findPraiseNumber">
+        </association>
+
+        <association property="enshrine" column="news_id" javaType="Integer" select="cn.hcy.newsproj.mapper.IEnshrineMapper.findByEnshrineNumber">
+        </association>
+
+        <collection property="comments2" column="news_id" ofType="comments" select="cn.hcy.newsproj.mapper.ICommentsMapper.findCommentsbyId">
+        </collection>
+    </resultMap>
+
+    <select id="findNewsByAttribute" resultMap="newscommentsnumber" >
+        SELECT SQL_NO_CACHE * from news where  news_attribute = #{news_attribute} order by rand()
+    </select>
+
+    <select id="findNewsByAttribute10" resultMap="newscommentsnumber" >
+        SELECT SQL_NO_CACHE * from news where  news_attribute = #{news_attribute} order by rand() limit #{nb}
+    </select>
+
+    <select id="findbNewsByAllTime" resultMap="newscommentsnumber">
+        SELECT * from news where news.news_attribute != #{news_attribute} order by  news_time desc limit #{nb}
+    </select>
+
+    <select id="findbNewsByAll" resultMap="newscommentsnumber">
+        SELECT  * from news where news.news_attribute != #{news_attribute} order by news_time
+    </select>
+    
+    <select id="findNewsById" resultMap="newscommentsnumber">
+        select * from news where news_id=#{id}
+    </select>
+    <select id="findNewsByAttributetime" resultMap="newscommentsnumber">
+        select * from news where news_attribute=#{news_attribut} order by news_time
+    </select>
+    
+
+
+</mapper>

@@ -1,0 +1,234 @@
+<!DOCTYPE html >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head >
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>栏目</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <meta name="renderer" content="webkit">
+    <meta name="baidu-site-verification" content="R9XA5lWxu2" />
+    <meta name="author" content="">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/build.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/activity.css}">
+    <link th:href="@{/css/login.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/css/zzsc.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/css/dlzc.css}" rel="stylesheet" type="text/css"/>
+    <script language="javascript" type="text/javascript" th:src="@{/js/jquery-3.4.1.min.js}"></script>
+	<script language="javascript" type="text/javascript" th:src="@{/js/main.js}"></script>
+    <script language="javascript" type="text/javascript" th:src="@{/js/popwin.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/nanoscroller.css}">
+    <script language="javascript" type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+    <style>
+        #div3 .thumbnail:hover{
+            transition: all 0.6s;
+            transform: scale(1.05);
+        }
+        .page_div {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            font-size: 15px;
+            font-family: "microsoft yahei";
+            color: #666666;
+            margin-right: 10px;
+            padding-left: 20px;
+            box-sizing: border-box;
+        }
+        /*
+         * 页数按钮样式
+         */
+        .page_div a {
+            min-width: 30px;
+            height: 28px;
+            border: 1px solid #dce0e0!important;
+            text-align: center;
+            margin: 0 4px;
+            cursor: pointer;
+            line-height: 28px;
+            color: #666666;
+            font-size: 13px;
+            display: inline-block;
+        }
+        #firstPage,
+        #lastPage {
+            width: 50px;
+            color: #0073A9;
+            border: 1px solid #0073A9!important;
+        }
+        #prePage,
+        #nextPage {
+            width: 70px;
+            color: #0073A9;
+            border: 1px solid #0073A9!important;
+        }
+        .page_div .current {
+            background-color: #0073A9;
+            border-color: #0073A9;
+            color: #FFFFFF;
+        }
+        .totalPages {
+            margin: 0 10px;
+        }
+        .totalPages span,
+        .totalSize span {
+            color: #0073A9;
+            margin: 0 5px;
+        }
+    </style>
+    
+</head>
+
+<body>
+
+
+
+<div th:replace="~{home::topbar}"></div>
+
+
+<div class="placeholder-height"></div>
+<div class="container" id="index">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3 col-xs-3">
+                <div class="panel panel-success">
+                    <div class="list-group">
+                        <button id="bt_ziliao"  class="list-group-item " style="background: red">个人资料</button>
+                        <button id="bt_shouchang"  class="list-group-item">我的收藏</button>
+<!--                        <button id="pinlun" class="list-group-item">我的评论</button>-->
+                    </div>
+                </div>
+            </div>
+            <div id="zhiliao" style="display: block" class="col-md-8 col-xs-8">
+                <div class="panel panel-success">
+                    <div class="panel-heading">个人资料</div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-5 col-md-offset-3">
+                                <div class="list-group">
+                                    <p class="list-group-item" >昵称：[[${session.username}]]</p>
+                                    <p class="list-group-item">邮箱：[[${session.userid}]]</p>
+                                    <p class="list-group-item">性别：[[${session.sex}]]</p>
+                                    <p class="list-group-item">爱好：[[${session.hobby}]]</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="shouchang" style="display: none" class="col-md-8 col-xs-8">
+                <div class="panel panel-success">
+                    <div class="panel-heading">我的收藏</div>
+                        <div class="panel-body">
+                            <div  class="mod-b mod-art" data-aid="213665" th:each="enshrine:${enshrinelist}">
+                                <div class="mod-thumb ">
+                                    <a th:href="@{/details/}+${enshrine.getEnshrine_nid()}" class="transition" th:title="${enshrine.news.news_title}" target="_blank">
+                                        <img height="180px" class="lazy" th:src="${enshrine.news.news_image}" th:alt="${enshrine.news.news_title}">
+                                    </a>
+                                </div>
+                                <div class="mob-ctt">
+                                    <h2 style="margin-top: 4px"><a th:href="@{/details/}+${enshrine.getEnshrine_nid()}" class="transition msubstr-row2" target="_blank" style="font-size: 25px">[[${enshrine.news.news_title}]]</a></h2>
+                                    <div class="mob-author" style="margin-top: 70px">
+                                        <span  style="color:gray;margin-left: 10px">[[${enshrine.news.news_source}]]</span>
+                                        <span style="margin-left: 120px" class="time">[[${enshrine.news.news_time}]]</span>
+                                        <i class="icon icon-cmt"></i><em>[[${enshrine.news.commentsNumber}]]</em>
+                                    </div>
+                                </div>
+                                <div style="display: none" class="leibie"  th:name="${enshrine.news.news_attribute}"></div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--<footer  style="position: absolute; bottom: 0px ; width: 100%;" class="footer">
+    <div class="modal-backdrop fade in js-modal-backdrop"></div>
+    <div class="container copy-right">
+        <div class="footer-tag-list">
+            <a href="#" target="_blank" class="transition">黄昌裕</a>
+            <a href="#" target="_blank" class="transition">加入我们</a>
+            <a href="#" target="_blank" class="transition">合作伙伴</a>
+            <a href="#" target="_blank" class="transition">广告及服务</a>
+            <a href="#" target="_blank" class="transition">常见问题解答</a>
+            &lt;!&ndash;            <a href="#" target="_blank" class="transition">防网络诈骗专题</a>&ndash;&gt;
+        </div>
+        <span>
+           &lt;!&ndash; Copyright © <a href="#">虎嗅网</a> <a href="#" target="_blank">京ICP备12013432号-1</a>
+            &nbsp;<a href="#" target="_blank"><i class="i-wj"></i>京公网安备 11010102001402号</a>&nbsp;&nbsp;&nbsp;<em class="bull-right">本站由</em><i class="icon-aliyun" style="width: 70px;background-size: 100%;left: 7px;"></i><em class="bull-em">提供计算与安全服务</em>&ndash;&gt;
+        </span>
+        <div class="footer-icon-list pull-right">
+            &lt;!&ndash;<ul class="Qr-codee">
+                <a><li class="Qr-code-footer">
+                    <div class="app-qrcode"><img src="images/weixin_erweima.png"></div>
+                    <i class="icon icon-footer icon-footer-wx"></i>
+                </li>
+                </a>
+                <a><li class="Qr-code-footer">
+                	<div class="app-qrcode"><img src="images/app_erweima.png"></div>
+                    <i class="icon icon-footer icon-footer-ios"></i>
+                </li>
+                </a>
+                <a><li class="Qr-code-footer">
+                    <div class="app-qrcode"><img src="images/app_erweima.png"></div>
+                    <i class="icon icon-footer icon-footer-android"></i>
+                </li>
+                </a>
+                <a href="#" target="_blank" title="虎嗅英文版">
+                    <li><i class="icon icon-footer icon-footer-inter"></i></li>
+                </a>
+                <a href="#" target="_blank" title="虎嗅RSS订阅中心">
+                    <li><i class="icon icon-footer icon-footer-rss"></i></li>
+                </a>
+            </ul>&ndash;&gt;
+        </div>
+    </div>
+    &lt;!&ndash;<div id="moquu_wxin" class="moquu_wxin"><a href="javascript:void(0)"><div class="moquu_wxinh"></div></a></div>
+    <div id="moquu_wshare" class="moquu_wshare"><a href="javascript:void(0)"><div class="moquu_wshareh"></div></a></div>&ndash;&gt;
+</footer>-->
+<script type="text/javascript" th:src="@{/js/mouse.js}"></script>
+<script type="text/javascript" th:src="@{/js/mylogin1.js}"></script>
+<script>
+    $(document).ready(function(){
+        $("#bt_ziliao").click(function () {
+            $("#bt_ziliao").css("background","red");
+            $("#bt_shouchang").css("background","");
+            $("#zhiliao").css("display","block");
+            $("#shouchang").css("display","none");
+        });
+        $("#bt_shouchang").click(function () {
+            $("#bt_ziliao").css("background","");
+            $("#bt_shouchang").css("background","red");
+            $("#zhiliao").css("display","none");
+            $("#shouchang").css("display","block");
+        });
+        $("#abcd").click(function () {
+            var user = {
+                id:"123",
+                agea:"100",
+            };
+            $.ajax({
+                type:"POST",
+                url:"/fengye",
+                data:JSON.stringify(user),
+                dataType:"json",
+                async:false,
+                headers : {"Content-Type" : "application/json;charset=utf-8"},
+                success:function (date) {
+                    alert(date.huan);
+                },
+                error:function (e) {
+                    alert("错误")
+                },
+
+            });
+        });
+
+    });
+</script>
+</body>
+
+</html>

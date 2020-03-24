@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.hcy.newsproj.mapper.IEnshrineMapper">
+    <resultMap id="ens" type="Enshrine">
+        <id property="enshrine_nid" column="enshrine_nid"></id>
+        <id property="enshrine_uid" column="enshrine_uid"></id>
+        <association property="news" column="enshrine_nid" javaType="news" select="cn.hcy.newsproj.mapper.INewsMapper.findNewsById">
+        </association>
+        
+
+    </resultMap>
+    <select id="findByEnshrineNumber" resultType="Integer" >
+        select count(enshrine_nid) from enshrine where  enshrine_nid = #{enshrine_nid}
+    </select>
+    <select id="fingByEnshrine" resultType="Enshrine">
+        select  * from enshrine where enshrine_nid=#{nid} and enshrine_uid=#{uid}
+    </select>
+    <insert id="insertEnshrine" >
+        insert  into enshrine(enshrine_nid,enshrine_uid) values (#{nid},#{uid})
+    </insert>
+    <delete id="deleteEnshrine" >
+        delete from enshrine where enshrine_nid=#{nid} and enshrine_uid=#{uid}
+    </delete>
+    <select id="findByUid" resultMap="ens">
+        select * from enshrine,news where news.news_id=enshrine_nid and enshrine_uid=#{enshrine_uid}
+    </select>
+</mapper>

@@ -1,0 +1,323 @@
+<!DOCTYPE html >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head >
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>栏目</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <meta name="renderer" content="webkit">
+    <meta name="baidu-site-verification" content="R9XA5lWxu2" />
+    <meta name="author" content="">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/build.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/activity.css}">
+    <link th:href="@{/css/login.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/css/zzsc.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/css/dlzc.css}" rel="stylesheet" type="text/css"/>
+    <script language="javascript" type="text/javascript" th:src="@{/js/jquery-3.4.1.min.js}"></script>
+	<script language="javascript" type="text/javascript" th:src="@{/js/main.js}"></script>
+    <script language="javascript" type="text/javascript" th:src="@{/js/popwin.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/nanoscroller.css}">
+    <script language="javascript" type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+    <style>
+        #div3 .thumbnail:hover{
+            transition: all 0.6s;
+            transform: scale(1.05);
+        }
+        .page_div {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            font-size: 15px;
+            font-family: "microsoft yahei";
+            color: #666666;
+            margin-right: 10px;
+            padding-left: 20px;
+            box-sizing: border-box;
+        }
+        /*
+         * 页数按钮样式
+         */
+        .page_div a {
+            min-width: 30px;
+            height: 28px;
+            border: 1px solid #dce0e0!important;
+            text-align: center;
+            margin: 0 4px;
+            cursor: pointer;
+            line-height: 28px;
+            color: #666666;
+            font-size: 13px;
+            display: inline-block;
+        }
+        #firstPage,
+        #lastPage {
+            width: 50px;
+            color: #0073A9;
+            border: 1px solid #0073A9!important;
+        }
+        #prePage,
+        #nextPage {
+            width: 70px;
+            color: #0073A9;
+            border: 1px solid #0073A9!important;
+        }
+        .page_div .current {
+            background-color: #0073A9;
+            border-color: #0073A9;
+            color: #FFFFFF;
+        }
+        .totalPages {
+            margin: 0 10px;
+        }
+        .totalPages span,
+        .totalSize span {
+            color: #0073A9;
+            margin: 0 5px;
+        }
+    </style>
+    
+</head>
+
+<body>
+
+
+
+<div th:replace="~{home::topbar}"></div>
+
+
+<div class="placeholder-height"></div>
+<div class="container" id="index">
+	<div class="wrap-left pull-left">
+        <div><p style="font-size: 20px">当前位置>><span style="font-size: 15px">[[${leibie}]]</span></p></div>
+        <div id="div3" th:fragment="fenye" class="mod-info-flow">
+            <div  class="mod-b mod-art" data-aid="213665" th:each="newsa:${columnews}">
+                 <div class="mod-thumb ">
+                       <a th:href="@{/details/}+${newsa.news_id}" class="transition" th:title="${newsa.news_title}" target="_blank">
+						  <img height="180px" class="lazy" th:src="${newsa.news_image}" th:alt="${newsa.news_title}">
+                       </a>
+                 </div>
+                 <div class="mob-ctt">
+                    <h2 style="margin-top: 4px"><a th:href="@{/details/}+${newsa.news_id}" class="transition msubstr-row2" target="_blank" style="font-size: 25px">[[${newsa.news_title}]]</a></h2>
+					<div class="mob-author" style="margin-top: 70px">
+                         <span style="color:gray;margin-left: 10px">[[${newsa.news_source}]]</span>
+                         <span style="margin-left: 210px" class="time">[[${newsa.news_time}]]</span>
+                         <i class="icon icon-cmt"></i><em>[[${newsa.commentsNumber}]]</em>
+                    </div>
+                 </div>
+                <div style="display: none" class="leibie"  th:name="${newsa.news_attribute}"></div>
+            </div>
+       </div>
+        <script language="Javascript"  type="text/javascript"  th:src="@{/js/fenye.js}"></script>
+        <div id="page" class="page_div"></div>
+        <div style="visibility: hidden" th:id="divages" th:name="${columnews.Pages}"> </div>
+        <script>
+            //分页
+            var pages=$("#divages").attr("name");
+
+
+            var i=parseInt(pages);
+            $("#page").paging({
+                totalPage: i,
+                totalSize: i*12,
+                callback: function(num) {
+                    var lei=$(".leibie").attr("name");
+                    $.ajax({
+                        type:"POST",
+                        url:"/colimn/fenye",
+                        data:{pnum:num,leibie:lei},
+                        async:true,
+                        success:function (date) {
+                            // alert(date);
+                            $("#div3").html(date)
+                            // alert(date.huan);
+
+                        },
+                        error:function (e) {
+                            alert("错误")
+                        },
+
+                    });
+
+                }
+            })
+        </script>
+	</div>
+    <div class="wrap-right pull-right">
+        <div class="right-ad-box"></div>
+
+<link rel="stylesheet" type="text/css" href="https://static.huxiucdn.com/www/css/moment.css">
+		<div id="moment"></div>
+		<div class="box-moder moder-story-list">
+    		<h3>24小时</h3>
+    		<span class="span-mark"></span>
+    		<div class="story-box-warp hour-box-warp">
+        		<div class="nano">
+            	<div class="overthrow nano-content description" tabindex="0">
+                	<ul class="box-list mt-box-list">
+                    <!--公共24小时列表部分-->
+                    	<li th:each="xiaoshi:${xiaoshi2}">
+            				<div class="story-content">
+                				<div class="mt-index-info-parent">
+                    				<div class="story-info mt-story-info">
+                        				<p class="story-detail-hide hour-detail-hide mt-index-cont mt-index-cont2 js-mt-index-cont2">
+                                            •&nbsp&nbsp[[${xiaoshi.news_title}]]
+                                            <a th:href="@{/details/}+${xiaoshi.news_id}" target="_blank" class="mt-index-cont2-a">[&nbsp原文&nbsp]</a>
+                                         </p>
+                    				</div>
+                				</div>
+            				</div>
+        				</li>
+					</ul>
+            	</div>
+            	<div class="nano-pane">
+                	<div class="nano-slider" style="height: 179px; transform: translate(0px, 0px);"></div>
+            	</div>
+        	</div>
+    	</div>
+    	<div class="js-more-moment" data-cur_page="0"></div>
+	</div>
+	<div class="placeholder"></div>
+<!--24小时部分结束1-->
+	<!--<div class="ad-wrap">
+    	<div class="ad-title">广告</div>
+    </div>
+    <div class="placeholder"></div>
+&lt;!&ndash;传言&ndash;&gt;
+&lt;!&ndash;传言部分开始&ndash;&gt;
+    <div id="rumor_center"></div>
+    <div class="box-moder moder-project-list">
+            <h3>你可能喜欢</h3>
+&lt;!&ndash;            <span class="pull-right project-more"><a href="#" class="transition" target="_blank">全部</a></span>&ndash;&gt;
+            <span class="span-mark"></span>
+            <ul>
+                <li th:each="news_like2:${news_like}">
+                    <div class="project-pic">
+                        <img th:src="${news_like2.news_image}">
+                    </div>
+                    <div class="project-content">
+                        <div class="project-title">
+                            <a th:href="@{/details/}+${news_like2.news_id}" class="transition" target="_blank">[[${news_like2.news_title}]]</a>
+                        </div>
+                        <p></p>
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+    <div class="placeholder"></div>
+    &lt;!&ndash;传言部分结束&ndash;&gt;
+	<div class="ad-wrap">
+    	<div class="ad-title">广告</div>
+	</div>
+    <div class="placeholder"></div>
+    <div class="placeholder"></div>
+
+&lt;!&ndash;研究报告部分开始&ndash;&gt;
+    <div class="box-moder hot-article">
+        <h3>时下电影</h3>
+        <span class="span-mark"></span>
+        <ul>
+            <li th:each="news_dianying2:${news_dianying}">
+                <div class="hot-article-img">
+                     <a th:href="@{/details/}+${news_dianying2.news_id}" target="_blank" th:title="${news_dianying2.news_title}">
+                        <img height="250px" th:src="${news_dianying2.news_image}">
+					 </a>
+                </div>
+                <a th:href="@{/details/}+${news_dianying2.news_id}" class="transition" target="_blank">[[${news_dianying2.news_title}]]</a>
+            </li>
+         </ul>
+    </div>
+    <div class="placeholder"></div>
+    </div>-->
+
+</div>
+
+<footer th:fragment="footer" class="footer">
+    <div class="modal-backdrop fade in js-modal-backdrop"></div>
+    <div class="container copy-right">
+        <div class="footer-tag-list">
+            <a href="#" target="_blank" class="transition">黄昌裕</a>
+            <a href="#" target="_blank" class="transition">加入我们</a>
+            <a href="#" target="_blank" class="transition">合作伙伴</a>
+            <a href="#" target="_blank" class="transition">广告及服务</a>
+            <a href="#" target="_blank" class="transition">常见问题解答</a>
+<!--            <a href="#" target="_blank" class="transition">防网络诈骗专题</a>-->
+        </div>
+        <span>
+        </span>
+        <div class="footer-icon-list pull-right">
+
+        </div>
+    </div>
+<!--<div id="moquu_wxin" class="moquu_wxin"><a href="javascript:void(0)"><div class="moquu_wxinh"></div></a></div>
+<div id="moquu_wshare" class="moquu_wshare"><a href="javascript:void(0)"><div class="moquu_wshareh"></div></a></div>-->
+</footer>
+<script type="text/javascript" th:src="@{/js/mouse.js}"></script>
+<script type="text/javascript" th:src="@{/js/mylogin1.js}"></script>
+<script>
+    $(document).ready(function(){
+        $("#abcd").click(function () {
+            // alert("测试成功");
+            var user = {
+                id:"123",
+                agea:"100",
+            };
+            $.ajax({
+                type:"POST",
+                url:"/fengye",
+                data:JSON.stringify(user),
+                dataType:"json",
+                async:false,
+                headers : {"Content-Type" : "application/json;charset=utf-8"},
+                success:function (date) {
+                    alert(date.huan);
+                },
+                error:function (e) {
+                    alert("错误")
+                },
+
+            });
+        });
+
+        // $("#mylogin").click(function () {
+        //     var user=$("#login_username").val();
+        //     var password=$("#login_password").val();
+        //     var up={
+        //         user2:user,
+        //         password2:password,
+        //     };
+        //     $.ajax({
+        //         type:"POST",
+        //         url:"/login",
+        //         data:JSON.stringify(up),
+        //         dataType:"json",
+        //         async:false,
+        //         headers : {"Content-Type" : "application/json;charset=utf-8"},
+        //         success:function (date) {
+        //            if(date.msg=="用户不存在"){
+        //                 $("#flog").html("<p style='color: red'>**用户不存在</p>");
+        //             }
+        //             if(date.msg=="用户密码错误"){
+        //                 $("#flog").html("<p style='color: red'>**用户密码错误</p>");
+        //             }
+        //             if(date.msg=="登录成功"){
+        //                 alert(date.msg);
+        //                 $("#dengru").css("display","one");
+        //                 window.location.reload();
+        //
+        //             }
+        //         },
+        //         error:function (e) {
+        //             alert("错误")
+        //         },
+        //     });
+        // });
+
+
+    });
+</script>
+</body>
+
+</html>

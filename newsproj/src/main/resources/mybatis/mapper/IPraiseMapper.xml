@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.hcy.newsproj.mapper.IPraiseMapper">
+    <select id="findPraiseNumber" resultType="Praise" >
+        select * from praise where  praise_nid = #{praise_nid}
+    </select>
+
+    <insert id="insertPraise" parameterType="Praise">
+        INSERT INTO praise (praise_nid,praise_number) VALUES (#{praise_nid},1)  ON DUPLICATE KEY UPDATE praise_number=praise_number+1;
+    </insert>
+    <update id="updatePraise" parameterType="Praise">
+        update praise set praise_number=praise_number-1 where praise_nid=#{id}
+    </update>
+</mapper>

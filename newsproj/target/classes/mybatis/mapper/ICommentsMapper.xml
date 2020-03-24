@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.hcy.newsproj.mapper.ICommentsMapper">
+    <resultMap id="commentMap" type="comments">
+        <id property="comments_id" column="comments_id"></id>
+        <result property="comments_nid" column="comments_nid"></result>
+        <result property="comments_uid" column="comments_uid"></result>
+        <result property="comments_context" column="comments_context"></result>
+        <result property="comments_time" column="comments_time"></result>
+        <association property="user1" column="comments_uid" javaType="User">
+            <id property="user_id" column="user_id"></id>
+            <result property="user_password" column="user_password" ></result>
+            <result property="user_name" column="user_name" ></result>
+            <result property="user_sex" column="user_sex" ></result>
+            <result property="user_brith" column="user_brith" ></result>
+            <result property="user_hobby" column="user_hobby" ></result>
+        </association>
+
+        <collection property="replies" column="comments_id" ofType="Reply" select="cn.hcy.newsproj.mapper.IReplyMapper.fingReplyById">
+        </collection>
+    </resultMap>
+    <select id="findCommnetsNumber" resultType="Integer" >
+        select count(comments_nid) from comments where comments_nid=#{comments_nid}
+    </select>
+
+    <select id="findCommentsbyId" resultMap="commentMap">
+        SELECT * from comments, user where  comments.comments_uid=user.user_id and  comments_nid=#{id} order by comments_time desc
+    </select>
+
+    <insert id="insertCommnents" parameterType="comments">
+        insert into comments(comments_nid,comments_uid,comments_context,comments_time) values (#{comments_nid},#{comments_uid},#{comments_context},#{comments_time})
+    </insert>
+</mapper>

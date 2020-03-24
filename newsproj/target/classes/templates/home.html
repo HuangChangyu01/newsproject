@@ -1,0 +1,618 @@
+<!DOCTYPE html >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head >
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>首页</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <meta name="renderer" content="webkit">
+    <meta name="baidu-site-verification" content="R9XA5lWxu2" />
+    <meta name="author" content="">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/build.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/activity.css}">
+    <link th:href="@{/css/login.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/css/zzsc.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/css/dlzc.css}" rel="stylesheet" type="text/css"/>
+    <script language="javascript" type="text/javascript" th:src="@{/js/jquery-3.4.1.min.js}"></script>
+	<script language="javascript" type="text/javascript" th:src="@{/js/main.js}"></script>
+    <script language="javascript" type="text/javascript" th:src="@{/js/popwin.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/nanoscroller.css}">
+    <script language="javascript" type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+    <style>
+        #div3 .thumbnail:hover{
+            transition: all 0.6s;
+            transform: scale(1.05);
+        }
+        .page_div {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            font-size: 15px;
+            font-family: "microsoft yahei";
+            color: #666666;
+            margin-right: 10px;
+            padding-left: 20px;
+            box-sizing: border-box;
+        }
+        /*
+         * 页数按钮样式
+         */
+        .page_div a {
+            min-width: 30px;
+            height: 28px;
+            border: 1px solid #dce0e0!important;
+            text-align: center;
+            margin: 0 4px;
+            cursor: pointer;
+            line-height: 28px;
+            color: #666666;
+            font-size: 13px;
+            display: inline-block;
+        }
+        #firstPage,
+        #lastPage {
+            width: 50px;
+            color: #0073A9;
+            border: 1px solid #0073A9!important;
+        }
+        #prePage,
+        #nextPage {
+            width: 70px;
+            color: #0073A9;
+            border: 1px solid #0073A9!important;
+        }
+        .page_div .current {
+            background-color: #0073A9;
+            border-color: #0073A9;
+            color: #FFFFFF;
+        }
+        .totalPages {
+            margin: 0 10px;
+        }
+        .totalPages span,
+        .totalSize span {
+            color: #0073A9;
+            margin: 0 5px;
+        }
+    </style>
+    
+</head>
+
+<body>
+
+<header  th:fragment="topbar" id="top" role="banner" class="transition">
+<!--搜索弹窗 开始-->
+<!--<div class="box">
+	<div class="box2">
+		<div class="icon icon-search-close js-show-search-box"><a class="close"></a></div>
+   	 	<div class="search-content overlay-dialog-animate">
+        	<div class="search-input">
+            	<form role="search" method="get" action="/search.html" onsubmit="return checkinput()">
+                	<button type="submit"></button>
+                	<input placeholder="请输入关键字" name="s" id="search-input">
+                </form>
+        	</div>
+        	<div class="search-history hide" id="history">
+            	<span>我的搜索历史</span>
+            	<ul class="transition" id="history_ul">
+                	<li class="transition"><a href="#">数码</a></li>
+                	<li class="transition"><a href="#">科技</a></li>
+                	<li class="transition"><a href="#">科技</a></li>
+                	<li class="transition"><a href="#">互联网</a></li>
+                	<li class="transition"><a href="#">汽车之家</a></li>
+           	 	</ul>
+            	<div class="pull-right empty-history js-empty-history">清空历史</div>
+        	</div>
+        	<div class="search-history search-hot">
+            	<strong>热搜词</strong>
+            	<ul>
+                	<li class="transition"><a href="#">数码</a></li>
+                	<li class="transition"><a href="#">科技</a></li>
+                	<li class="transition"><a href="#">互联网</a></li>
+                	<li class="transition"><a href="#">汽车之家</a></li>
+                	<li class="transition"><a href="#">Uber</a></li>
+                	<li class="transition"><a href="#">支付宝</a></li>
+                	<li class="transition"><a href="#">大数据</a></li>
+                	<li class="transition"><a href="#">创业</a></li>
+                	<li class="transition"><a href="#">旅游</a></li>
+                	<li class="transition"><a href="#">美团</a></li>
+                	<li class="transition"><a href="#">社交</a></li>
+            	</ul>
+        	</div>
+    	</div>
+	</div>
+</div>-->
+<!--搜索弹窗 结束-->
+<script>
+    function checkinput(){
+        var input = $("#search-input").val();
+        if(input ==  null || input == ''){
+            return false;
+        }
+        return true;
+    }
+</script>
+    <div class="container">
+        <div class="navbar-header transition">
+            <a th:href="@{/}" title="首页">首页</a>
+        </div>
+
+        <ul class="nav navbar-nav navbar-left" id="jsddm">
+            <li class="nav-news js-show-menu">
+               <a href="#">栏目<span class="caret"></span></a>
+				<ul>
+                    <li><a th:href="@{/colimn/娱乐}" >娱乐</a></li>
+                    <li><a th:href="@{/colimn/电影}" >电影</a></li>
+                    <li><a th:href="@{/colimn/游戏}" >游戏</a></li>
+                    <li><a th:href="@{/colimn/动漫}" >动漫</a></li>
+                    <li><a th:href="@{/colimn/音乐}" >音乐</a></li>
+                    <li><a th:href="@{/colimn/头条}" >热门</a></li>
+				</ul>
+            </li>
+            <style>
+#jsddm ul{position: absolute; visibility: hidden; background:#fff; width:250px;  top:60px; left:-50px; z-index:9999; box-shadow:0 1px 15px rgba(18,21,21,.2);padding:10px 5px;}
+#jsddm ul li{ float:left; width:105px; padding-left:20px; line-height:40px;}
+</style>
+            <li class="nav-news"><a href="#" target="_blank">热议<span class="nums-prompt nums-prompt-topic"></span></a></li>
+            <li class="nav-news"><a href="#" target="_blank">活动</a></li>
+            <li th:if="${not #strings.isEmpty(session.username)}" style="margin-left: 600px"><a th:href="@{/Mymessage}" ><span style="color: red">当前用户:</span>[[${session.username}]]</a>
+                <a th:href="@{/tuichu}" style="margin-left: 10px">退出</a>
+            </li>
+        </ul>
+
+        <ul th:if="${#strings.isEmpty(session.username)}" id="dengru" class="nav navbar-nav navbar-right transition  xiala main_nav">
+            <li class="search-li js-show-search-box"><a><i class="icon icon-search "></i></a><span>搜索</span></li>
+            <li class="login-link-box"><a class="cd-signin">登录</a></li>
+            <li ><a class="cd-signup" >注册</a></li>
+        </ul>
+    </div>
+<div class="cd-user-modal"> 
+	<div class="cd-user-modal-container">
+		<div id="cd-login"> <!-- 登录表单 -->
+			<div class="modal-alert-title">登录</div>
+            <div class="register" >
+				<div class="register-top" id="reg-top">
+<!--                    <i><a id="qrcode" href="#"></a></i>-->
+                </div>
+				<div class="register-con" id="rc">
+                	<div class="login-form username-box " style="margin-top:52px;">
+<!--           				<a class="js-open-sms-login sms-text">短信快捷登录</a>-->
+            			<label class="login-label transition" >
+                			<input id="login_username" class="login-input" placeholder="手机号／邮箱">
+            			</label>
+            			<label class="login-label">
+                			<input  id="login_password" class="login-input password" type="password" placeholder="输入6～24位密码">
+            			</label>
+            			<a class="js-label-select label-select-box hide login-label-select text-center"><span class="js-country-user">+86</span><i class="icon-modal icon-l-caret"></i></a>
+						<div class="login-operation">
+<!--                			<label><input id="autologin" type="checkbox">&nbsp;2周内自动登录</label>-->
+               				<a href="/user/reset_password" class="js-forget-passward pull-right">忘记密码</a>
+            			</div>
+                        <p id="flog"></p>
+            			<button id="mylogin" class="js-btn-login btn-login">登&nbsp;录</button>
+        			</div>
+
+        			<!--<div class="third-box">
+            			<div class="title"><span>第三方登录</span></div>
+            			<a href="#"><i class="icon-modal icon-login-qq"></i></a>
+            			<a class="js-login-switch"><i class="icon-modal icon-login-wx"></i></a>
+            			<a href="#"><i class="icon-modal icon-login-wb"></i></a>
+            			<a href="#"><i class="icon-modal icon-login-zfb"></i></a>
+        			</div>-->
+    			</div>
+            </div>
+			<div class="saoma" id="sm">
+				<div class="qr-code" style="text-align:center">
+                    <div class="title">微信登录</div>
+					<div class="waiting panelContent">
+						<div class="wrp_code"><img class="qrcode lightBorder" src="images/150943753529.png"></div>
+						<div class="info">
+							<div class="status status_browser js_status" id="wx_default_tip">
+			                	<p>请使用微信扫描二维码登录</p>
+                            	<p></p>
+			           		 </div>
+						</div>
+					</div>
+                 </div>
+        		<div class="screen-tu" id="screen"></div>
+			</div>
+		</div>
+    	<div id="cd-signup"> <!-- 注册表单 -->
+			<div class="modal-alert-title">极速注册</div>
+       	    <div class="user-register-box">
+				<div class="login-form sms-box">
+					<label class="login-label col-xs-label transition"><input id="sms_username" type="email" class="login-input username" placeholder="邮箱号"></label>
+					<div class="geetest_login_sms_box" >
+						<!--<div id="geetest_1496454436837" class="gt_holder gt_float" style="touch-action: none;">
+							<div class="gt_slider">
+								<div class="gt_guide_tip gt_show">按住左边滑块，拖动完成上方拼图</div>
+								<div class="gt_slider_knob gt_show" style="left: 0px;"></div>
+								<div class="gt_curtain_knob gt_hide">移动到此开始验证</div>
+								<div class="gt_ajax_tip gt_ready"></div>
+							</div>
+						</div>-->
+					</div>
+					<!--<label class="login-label captcha"><input id="sms_captcha" class="login-input" placeholder="输入6位验证码" maxlength="6">
+                    <span class="js-btn-captcha btn-captcha">获取验证码</span></label>-->
+                    <label class="login-label captcha"><input id="mima" class="login-input" type="password" placeholder="输入密码" maxlength="6">
+                      </label>
+					<a class="js-label-select label-select-box text-center"><span class="js-country-sms">邮箱</span><i class="icon-modal icon-l-caret"></i></a>
+					<button id="zhuche01" class="js-btn-sms-login btn-login">注&nbsp;册</button>
+				</div>
+				<div class="js-user-login register-text">已有账号，立即登录</div></div>
+    		</div>
+			<a href="#0" class="cd-close-form ">关闭</a>
+	</div>
+</div>
+
+<script th:src="@{/js/d-login.js}"></script>
+</header>
+
+
+<div class="placeholder-height"></div>
+<div class="container" id="index">
+	<div class="wrap-left pull-left">
+        <div class="big-pic-box">
+             <div class="big-pic">
+                  <a  th:href="@{/details/}+${toutiao1.news_id}" target="_blank" class="transition"  th:title="${toutiao1.news_title}">
+                     <div class="back-img"><img height="500px" th:src="${toutiao1.news_image}" src="sy-img/061708387437.jpg" th:alt="${toutiao1.news_title}" ></div>
+                     <div class="big-pic-content">
+                          <h1 class="t-h1"  th:text="${toutiao1.news_title}" ></h1>
+
+                      </div>
+                  </a>
+             </div>
+             <div class="big2-pic big2-pic-index big2-pic-index-top">
+                  <a th:href="@{/details/}+${toutiao2.news_id}" class="back-img transition" target="_blank"  th:title="${toutiao2.news_title}">
+                     <img height="250px" class="lazy" th:src="${toutiao2.news_image}" src="sy-img/142618969973.jpg" th:alt="${toutiao2.news_title}">
+                  </a>
+                  <a th:href="@{/details/}+${toutiao2.news_id}" target="_blank" th:title="${toutiao2.news_title}" >
+                     <div class="big2-pic-content">
+                          <h2 class="t-h1" th:text="${toutiao2.news_title}"></h2>
+                     </div>
+                  </a>
+             </div>
+             <div class="big2-pic big2-pic-index big2-pic-index-bottom">
+                  <a th:href="@{/details/}+${toutiao3.news_id}" class="back-img transition" target="_blank" th:title="${toutiao3.news_title}">
+                     <img height="250px" class="lazy" th:src="${toutiao3.news_image}" src="sy-img/093433055013.jpg">
+                  </a>
+                  <a th:href="@{/details/}+${toutiao3.news_id}" target="_blank" th:title="${toutiao3.news_title}" >
+                     <div class="big2-pic-content">
+                          <h2 class="t-h1" th:text="${toutiao3.news_title}"></h2>
+                     </div>
+                  </a>
+             </div>
+       </div>
+        <div class="mod-info-flow">
+            <div class="mod-b mod-art" data-aid="213665" th:each="newsa:${news3}">
+            	 <div class="mod-angle">热</div>
+                 <div class="mod-thumb ">
+                       <a th:href="@{/details/}+${newsa.news_id}" class="transition" th:title="${newsa.news_title}" target="_blank">
+						  <img height="180px" class="lazy" th:src="${newsa.news_image}" th:alt="${newsa.news_title}">
+                       </a>
+                 </div>
+                 <div class="mob-ctt">
+                    <h2 style="margin-top: 4px"><a th:href="@{/details/}+${newsa.news_id}" class="transition msubstr-row2" target="_blank" style="font-size: 25px">[[${newsa.news_title}]]</a></h2>
+					<div class="mob-author" style="margin-top: 70px">
+                         <span style="color:gray;margin-left: 10px">[[${newsa.news_source}]]</span>
+                         <span style="margin-left: 210px" class="time">[[${newsa.news_time}]]</span>
+                         <i class="icon icon-cmt"></i><em>[[${newsa.commentsNumber}]]</em>
+                    </div>
+                 </div>
+            </div>
+            <div class="mod-b mod-art mod-b-push ">
+                 <a class="transition" th:href="@{/details/}+${news_game1.news_id}" target="_blank"  th:title="${news_game1.news_title}">
+                    <div class="mod-thumb ">
+                         <img height="400px" class="lazy" th:src="${news_game1.news_image}" th:alt="${news_game1.news_title}">
+                    </div>
+                 </a>
+                 <div class="mob-ctt">
+                    <h2><a  th:href="@{/details/}+${news_game1.news_id}" class="transition msubstr-row5" target="_blank">[[${news_game1.news_title}]]</a></h2>
+                    <div class="mob-author">
+                        <!-- <div class="author-face">
+                              <a  target="_blank"><img class="lazy" src="sy-img/default.jpg"></a>
+                         </div>-->
+                         <a  target="_blank" style="margin-left: -50px">
+                              <span class="author-name">[[${news_game1.news_source}]]</span>
+                         </a>
+                         <a  target="_blank"></a>
+                         <span class="time">[[${news_game1.news_time}]]</span>
+                    </div>
+                </div>
+            </div>
+            <div class="mod-b mod-art" data-aid="213665" th:each="news_music:${news_music2}">
+               <div class="mod-angle">热</div>
+               <div class="mod-thumb ">
+                   <a th:href="@{/details/}+${news_music.news_id}" class="transition" th:title="${news_music.news_title}"  target="_blank">
+                       <img height="180px" class="lazy" th:src="${news_music.news_image}" th:alt="${news_music.news_title}">
+                   </a>
+               </div>
+               <div class="mob-ctt">
+                   <h2 style="margin-top: 4px"><a th:href="@{/details/}+${news_music.news_id}" class="transition msubstr-row2" target="_blank" style="font-size: 25px">[[${news_music.news_title}]]</a></h2>
+                   <div class="mob-author" style="margin-top: 70px">
+                       <span style="color:gray;margin-left: 10px">[[${news_music.news_source}]]</span>
+                       <span style="margin-left: 210px" class="time">[[${news_music.news_time}]]</span>
+                       <i class="icon icon-cmt"></i><em>[[${news_music.commentsNumber}]]</em>
+                   </div>
+               </div>
+           </div>
+            <div id="div3"  class="container-fluid" style="margin-top: 20px" th:fragment="divage" th:id="div3">
+                <div  class="row">
+                    <div id="divage" class="col-md-3" th:each="news_All1:${news_all}" >
+                        <div class="thumbnail" style="height: 220px">
+                            <a  class="transition"  target="_blank" th:href="@{/details/}+${news_All1.news_id}"><img  th:src="${news_All1.news_image}"  class="img-rounded"  />
+                            </a>
+                            <div class="caption">
+                                <a class="transition"  target="_blank" th:href="@{/details/}+${news_All1.news_id}">
+                                    <p style="display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;overflow: hidden;">[[${news_All1.news_title}]]</p>
+                                </a>
+                                <p  style="color: #d9d9d9;font-size: 12px">
+                                    [[${news_All1.news_time}]]
+                                    <i class="icon icon-cmt"></i><span style="color: #f2f2f2;">[[${news_All1.commentsNumber}]]</span>
+                                </p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script language="Javascript"  type="text/javascript"  th:src="@{/js/fenye.js}"></script>
+            <div id="page" class="page_div"></div>
+            <div style="visibility: hidden" th:id="divages" th:name="${news_all.Pages}"> </div>
+            <script>
+                //分页
+                var pages=$("#divages").attr("name");
+                var i=parseInt(pages);
+                $("#page").paging({
+                    totalPage: i,
+                    totalSize: i*12,
+                    callback: function(num) {
+                        $.ajax({
+                            type:"POST",
+                            url:"/fengye",
+                            data:{pnum:num},
+                            async:true,
+                            success:function (date) {
+                                // alert(date);
+                                $("#div3").html(date)
+                                // alert(date.huan);
+
+                            },
+                            error:function (e) {
+                                alert("错误")
+                            },
+
+                        });
+
+                    }
+                })
+            </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       </div>
+
+
+	</div>
+
+    <div th:fragment="zuo" class="wrap-right pull-right">
+        <div class="right-ad-box"></div>
+
+<link rel="stylesheet" type="text/css" href="https://static.huxiucdn.com/www/css/moment.css">
+		<div id="moment"></div>
+		<div class="box-moder moder-story-list">
+    		<h3>24小时</h3>
+    		<span class="span-mark"></span>
+    		<div class="story-box-warp hour-box-warp">
+        		<div class="nano">
+            	<div class="overthrow nano-content description" tabindex="0">
+                	<ul class="box-list mt-box-list">
+                    <!--公共24小时列表部分-->
+                    	<li th:each="xiaoshi:${xiaoshi}">
+            				<div class="story-content">
+                				<div class="mt-index-info-parent">
+                    				<div class="story-info mt-story-info">
+                        				<p class="story-detail-hide hour-detail-hide mt-index-cont mt-index-cont2 js-mt-index-cont2">
+                                            •&nbsp&nbsp[[${xiaoshi.news_title}]]
+                                            <a th:href="@{/details/}+${xiaoshi.news_id}" target="_blank" class="mt-index-cont2-a">[&nbsp原文&nbsp]</a>
+                                         </p>
+                    				</div>
+                				</div>
+            				</div>
+        				</li>
+					</ul>
+            	</div>
+            	<div class="nano-pane">
+                	<div class="nano-slider" style="height: 179px; transform: translate(0px, 0px);"></div>
+            	</div>
+        	</div>
+    	</div>
+    	<div class="js-more-moment" data-cur_page="0"></div>
+	</div>
+	<div class="placeholder"></div>
+<!--24小时部分结束1-->
+	<div class="ad-wrap">
+    	<div class="ad-title">广告</div>
+    </div>
+    <div class="placeholder"></div>
+<!--传言-->
+<!--传言部分开始-->
+    <div id="rumor_center"></div>
+    <div class="box-moder moder-project-list">
+            <h3>你可能喜欢</h3>
+<!--            <span class="pull-right project-more"><a href="#" class="transition" target="_blank">全部</a></span>-->
+            <span class="span-mark"></span>
+            <ul>
+                <li th:each="news_like2:${news_like}">
+                    <div class="project-pic">
+                        <img th:src="${news_like2.news_image}">
+                    </div>
+                    <div class="project-content">
+                        <div class="project-title">
+                            <a th:href="@{/details/}+${news_like2.news_id}" class="transition" target="_blank">[[${news_like2.news_title}]]</a>
+                        </div>
+                        <p></p>
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+    <div class="placeholder"></div>
+    <!--传言部分结束-->
+	<div class="ad-wrap">
+    	<div class="ad-title">广告</div>
+	</div>
+    <div class="placeholder"></div>
+    <div class="placeholder"></div>
+
+<!--研究报告部分开始-->
+    <div class="box-moder hot-article">
+        <h3>时下电影</h3>
+        <span class="span-mark"></span>
+        <ul>
+            <li th:each="news_dianying2:${news_dianying}">
+                <div class="hot-article-img">
+                     <a th:href="@{/details/}+${news_dianying2.news_id}" target="_blank" th:title="${news_dianying2.news_title}">
+                        <img height="250px" th:src="${news_dianying2.news_image}">
+					 </a>
+                </div>
+                <a th:href="@{/details/}+${news_dianying2.news_id}" class="transition" target="_blank">[[${news_dianying2.news_title}]]</a>
+            </li>
+
+            
+         </ul>
+    </div>
+    <div class="placeholder"></div>
+</div>
+</div>
+
+<footer th:fragment="footer" class="footer">
+    <div class="modal-backdrop fade in js-modal-backdrop"></div>
+    <div class="container copy-right">
+        <div class="footer-tag-list">
+            <a href="#" target="_blank" class="transition">黄昌裕</a>
+            <a href="#" target="_blank" class="transition">加入我们</a>
+            <a href="#" target="_blank" class="transition">合作伙伴</a>
+            <a href="#" target="_blank" class="transition">广告及服务</a>
+            <a href="#" target="_blank" class="transition">常见问题解答</a>
+<!--            <a href="#" target="_blank" class="transition">防网络诈骗专题</a>-->
+        </div>
+        <span>
+           <!-- Copyright © <a href="#">虎嗅网</a> <a href="#" target="_blank">京ICP备12013432号-1</a>
+            &nbsp;<a href="#" target="_blank"><i class="i-wj"></i>京公网安备 11010102001402号</a>&nbsp;&nbsp;&nbsp;<em class="bull-right">本站由</em><i class="icon-aliyun" style="width: 70px;background-size: 100%;left: 7px;"></i><em class="bull-em">提供计算与安全服务</em>-->
+        </span>
+        <div class="footer-icon-list pull-right">
+            <!--<ul class="Qr-codee">
+                <a><li class="Qr-code-footer">
+                    <div class="app-qrcode"><img src="images/weixin_erweima.png"></div>
+                    <i class="icon icon-footer icon-footer-wx"></i>
+                </li>
+                </a>
+                <a><li class="Qr-code-footer">
+                	<div class="app-qrcode"><img src="images/app_erweima.png"></div>
+                    <i class="icon icon-footer icon-footer-ios"></i>
+                </li>
+                </a>
+                <a><li class="Qr-code-footer">
+                    <div class="app-qrcode"><img src="images/app_erweima.png"></div>
+                    <i class="icon icon-footer icon-footer-android"></i>
+                </li>
+                </a>
+                <a href="#" target="_blank" title="虎嗅英文版">
+                    <li><i class="icon icon-footer icon-footer-inter"></i></li>
+                </a>
+                <a href="#" target="_blank" title="虎嗅RSS订阅中心">
+                    <li><i class="icon icon-footer icon-footer-rss"></i></li>
+                </a>
+            </ul>-->
+        </div>
+    </div>
+<!--<div id="moquu_wxin" class="moquu_wxin"><a href="javascript:void(0)"><div class="moquu_wxinh"></div></a></div>
+<div id="moquu_wshare" class="moquu_wshare"><a href="javascript:void(0)"><div class="moquu_wshareh"></div></a></div>-->
+</footer>
+<script type="text/javascript" th:src="@{/js/mouse.js}"></script>
+<script type="text/javascript" th:src="@{/js/mylogin1.js}"></script>
+<script>
+    $(document).ready(function(){
+        $("#abcd").click(function () {
+            // alert("测试成功");  //如果不写请求头 后台接收注解@RequestBody 就收不到消息 要用原生HttpServletRequest 来获取数据
+            var user = {
+                id:"123",
+                agea:"100",
+            };
+            $.ajax({
+                type:"POST",
+                url:"/fengye",
+                data:JSON.stringify(user),
+                dataType:"json",
+                async:false,
+                headers : {"Content-Type" : "application/json;charset=utf-8"},
+                success:function (date) {
+                    alert(date.huan);
+                },
+                error:function (e) {
+                    alert("错误")
+                },
+
+            });
+        });
+
+
+        $("#zhuche01").click(function () {
+            var user=$("#sms_username").val();
+            var password=$("#mima").val();
+            if(user.length!=0 && password.length!=0){
+                var up={
+                    user2:user,
+                    password2:password,
+                };
+                $.ajax({
+                    type:"POST",
+                    url:"/zhuche",
+                    data:JSON.stringify(up),
+                    dataType:"json",
+                    async:false,
+                    headers : {"Content-Type" : "application/json;charset=utf-8"},
+                    success:function (date) {
+                        if(date.se=="存在"){
+                            alert("用户已存在");
+                        }else {
+                            alert("注册成功");
+                            window.location.reload();
+                        }
+
+
+                    },
+                    error:function (e) {
+                        alert("错误")
+                    },
+                });
+
+            }else{
+                alert("邮箱秘密不可为空！");
+            }
+
+
+
+        });
+
+
+    });
+</script>
+</body>
+
+</html>
